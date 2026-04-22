@@ -8,40 +8,68 @@ import {
   FormControl,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { useSelectedEntry } from "../context/SelectedEntryContext";
 import CommonMessage, { COMMON_MESSAGES } from "../common/CommonMessage";
 
 export default function FilterTermsExtra() {
-  const { extraFilter, setExtraFilter, setSelectedFilter } = useSelectedEntry();
+  const { extraFilter, setExtraFilter, setSelectedFilter, setLoadingData, setResultData, setHasSearchResult } = useSelectedEntry();
+
+  const handleCancel = () => {
+    setExtraFilter(null);
+    setSelectedOperator(">");
+    setSelectedValue("");
+    setSelectedScope("condition");
+    setError("");
+  };
   const [selectedOperator, setSelectedOperator] = useState(">");
   const [selectedValue, setSelectedValue] = useState("");
+  const [selectedScope, setSelectedScope] = useState("condition");
   const [error, setError] = useState("");
 
   const handleAddFilter = () => {
     setError("");
     if (!selectedValue) {
       setError(COMMON_MESSAGES.fillFields);
-    } else {
-      setSelectedFilter((prevFilters) => {
-        if (prevFilters.some((filter) => filter.key === extraFilter.key)) {
-          return prevFilters;
-        }
-        const extraFilterCustom = {
-          field: extraFilter.key,
-          operator: selectedOperator,
-          value: selectedValue,
-          label: `${extraFilter.label} ${selectedOperator} ${selectedValue}`,
-          scope: extraFilter.scope || null,
-          scopes: extraFilter.scopes || [],
-          type: extraFilter.type || "alphanumeric",
-        };
-        setExtraFilter(null);
-        setSelectedOperator(">");
-        setSelectedValue("");
-        return [...prevFilters, extraFilterCustom];
-      });
+      return;
     }
+
+    const normalized = selectedValue.replace(",", ".");
+    const valueType = extraFilter.valueType;
+
+    if (valueType === "integer") {
+      if (!/^-?\d+$/.test(normalized.trim())) {
+        setError(COMMON_MESSAGES.invalidInteger);
+        return;
+      }
+    } else if (valueType === "decimal") {
+      if (isNaN(Number(normalized.trim())) || normalized.trim() === "") {
+        setError(COMMON_MESSAGES.invalidDecimal);
+        return;
+      }
+    }
+
+    setSelectedFilter((prevFilters) => {
+      if (prevFilters.some((filter) => filter.key === extraFilter.key)) {
+        return prevFilters;
+      }
+      const extraFilterCustom = {
+        field: extraFilter.key,
+        operator: selectedOperator,
+        value: normalized,
+        label: extraFilter.key === "ageOfOnset"
+          ? `${extraFilter.label} ${selectedOperator} ${normalized} (${selectedScope})`
+          : `${extraFilter.label} ${selectedOperator} ${normalized}`,
+        scope: extraFilter.key === "ageOfOnset" ? selectedScope : (extraFilter.scope || null),
+        scopes: extraFilter.scopes || [],
+        type: extraFilter.type || "alphanumeric",
+      };
+      setExtraFilter(null);
+      setSelectedOperator(">");
+      setSelectedValue("");
+      return [...prevFilters, extraFilterCustom];
+    });
   };
 
   return (
@@ -67,6 +95,37 @@ export default function FilterTermsExtra() {
           Insert value:
         </Typography>
       </Box>
+      {extraFilter.key === "ageOfOnset" && (
+        <Box>
+          <FormControl
+            sx={{
+              minWidth: 110,
+              border: `1px solid ${CONFIG.ui.colors.primary}`,
+              borderRadius: "10px",
+              transition: "flex 0.3s ease",
+              "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+              "& .MuiSelect-select": { padding: "5px 12px" },
+            }}
+            size="small"
+          >
+            <Select
+              value={selectedScope}
+              displayEmpty
+              onChange={(e) => setSelectedScope(e.target.value)}
+              sx={{
+                "& fieldset": { border: "none" },
+                p: 0,
+              }}
+            >
+              <MenuItem value="condition">Condition</MenuItem>
+              <MenuItem value="measurement">Measurement</MenuItem>
+              <MenuItem value="observation">Observation</MenuItem>
+              <MenuItem value="procedure">Procedure</MenuItem>
+              <MenuItem value="treatments">Treatments</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      )}
       <Box>
         <FormControl
           sx={{
@@ -127,6 +186,11 @@ export default function FilterTermsExtra() {
             fontSize: "14px",
           }}
         />
+        {extraFilter.unit && (
+          <Typography sx={{ fontSize: "13px", color: "#9E9E9E", pl: 0.5, fontFamily: '"Open Sans", sans-serif' }}>
+            {extraFilter.unit}
+          </Typography>
+        )}
       </Box>
       <Box
         sx={{
@@ -161,6 +225,37 @@ export default function FilterTermsExtra() {
           }}
         >
           <AddIcon fontSize="small" />
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          padding: "0px",
+          maxWidth: "30px",
+        }}
+      >
+        <Button
+          variant="outlined"
+          onClick={handleCancel}
+          sx={{
+            textTransform: "none",
+            backgroundColor: "white",
+            border: `1px solid #9E9E9E`,
+            color: "#9E9E9E",
+            borderRadius: "50%",
+            width: "30px",
+            height: "30px",
+            minWidth: "30px",
+            minHeight: "30px",
+            padding: 0,
+            "&:hover": {
+              backgroundColor: "#9E9E9E",
+              color: "white",
+            },
+          }}
+        >
+          <CloseIcon fontSize="small" />
         </Button>
       </Box>
       {error && <CommonMessage text={error} type="error" />}

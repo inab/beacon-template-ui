@@ -10,8 +10,10 @@ import {
   Button,
   Tooltip,
   Chip,
-  Divider
+  Divider,
+  IconButton
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useSelectedEntry } from "../context/SelectedEntryContext";
 
 async function loadDefaultData() {
@@ -28,6 +30,7 @@ export default function OmopFilters({ data, onChange }) {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [value, setValue] = useState(null);
+  const [rangeError, setRangeError] = useState("");
   const { setOmopFilters } = useSelectedEntry();
 
   const CFG = globalThis.CONFIG ?? {};
@@ -165,6 +168,7 @@ export default function OmopFilters({ data, onChange }) {
               const f = filters.find((x) => filterValue(x) === v) || null;
               setSelectedFilter(f);
               setValue(null);
+              setRangeError("");
             }}
             sx={{
                 "& .MuiSelect-select": {
@@ -192,14 +196,22 @@ export default function OmopFilters({ data, onChange }) {
 
       {selectedFilter && (
         <Box sx={{ p: 2, border: "1px solid #e0e0e0", borderRadius: 2 }}>
-          <Typography variant="subtitle1"
-            sx={{
-              mb: 1,
-              fontWeight: 600,
-              fontSize: 13
-            }}>
-            {selectedFilter.label}
-          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+            <Typography variant="subtitle1"
+              sx={{
+                fontWeight: 600,
+                fontSize: 13
+              }}>
+              {selectedFilter.label}
+            </Typography>
+            <IconButton
+              size="small"
+              onClick={() => { setSelectedFilter(null); setValue(null); setRangeError(""); }}
+              sx={{ color: "#9E9E9E", "&:hover": { color: "#555" } }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
           <Box>
             {unitFull && (
               <Box sx={{ display: "flex", justifyContent: "start", with: "100%", paddingBottom: "7px" }}>
@@ -269,7 +281,17 @@ export default function OmopFilters({ data, onChange }) {
                       placeholder="Value"
                       value={num ?? ""}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setValue({ op, num: e.target.value })}
+                      error={!!rangeError}
+                      helperText={rangeError}
+                      onChange={(e) => {
+                        const normalized = e.target.value.replace(",", ".");
+                        if (normalized !== "" && isNaN(Number(normalized))) {
+                          setRangeError("Please enter a number using dot as decimal separator (e.g. 70.5).");
+                        } else {
+                          setRangeError("");
+                        }
+                        setValue({ op, num: normalized });
+                      }}
                       sx={{
                         "& .MuiInputBase-root": {
                           height: 30,

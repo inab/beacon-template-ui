@@ -3,10 +3,9 @@ ARG NODE_VERSION=20
 FROM node:${NODE_VERSION}-alpine AS build
 WORKDIR /app
 
-COPY package.json yarn.lock ./
-RUN sh -c "corepack enable && (yarn install --immutable || yarn install --frozen-lockfile)"
-
 COPY . .
+
+RUN sh -c "corepack enable && (yarn install --immutable || yarn install --frozen-lockfile)"
 RUN yarn build   # CRA genera en /app/build
 
 # --- stage 2 --- # 

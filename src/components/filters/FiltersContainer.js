@@ -3,6 +3,7 @@ import { Box, Tabs, Tab, Typography } from "@mui/material";
 import CommonFilters from "./CommonFilters";
 import GenomicAnnotations from "../genomic/GenomicAnnotations";
 import OmopFilters from './OmopFilters.js'
+import HpoFilters from './HpoFilters.js'
 import { useSelectedEntry } from "../context/SelectedEntryContext";
 
 function TabPanel(props) {
@@ -29,7 +30,8 @@ export default function FiltersContainer({
   searchHeight,
   hasGenomicAnnotationsConfig,
   hasCommonFiltersConfig,
-  hasOMOPFilters
+  hasOMOPFilters,
+  hasHPOFilters,
 }) {
   const { selectedPathSegment, entryTypes } = useSelectedEntry();
   const [tabValue, setTabValue] = useState(0);
@@ -103,6 +105,15 @@ export default function FiltersContainer({
     });
   }
 
+  if (hasHPOFilters) {
+    tabs.push({
+      key: "hpo",
+      label: "HPO Filters",
+      component: <HpoFilters />,
+      title: "HPO Filters",
+    });
+  }
+
   if (tabs.length === 0) return null;
 
 
@@ -117,7 +128,7 @@ export default function FiltersContainer({
           backgroundColor: "#F5F5F5",
           borderRadius: "0px",
           padding: "4px",
-          width: { md: "290px", lg: "338px" },
+          width: { md: "340px", lg: "400px" },
           "& .MuiTabs-indicator": {
             display: "none",
           },

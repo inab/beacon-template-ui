@@ -22,13 +22,14 @@ export default function HomePage({ selectedTool, setSelectedTool }) {
     Object.keys(CONFIG.ui.commonFilters.filterLabels).length > 0;
 
   const hasOMOPFilters = CONFIG.omop;
+  const hasHPOFilters = CONFIG.hpo;
 
   useEffect(() => {
     if (hasOMOPFilters) setSearchHeight(420);
   }, [hasOMOPFilters]);
 
   const shouldShowFilters =
-    hasGenomicAnnotationsConfig || hasCommonFiltersConfig;
+    hasGenomicAnnotationsConfig || hasCommonFiltersConfig || hasHPOFilters;
 
   return (
     <>
@@ -66,7 +67,7 @@ export default function HomePage({ selectedTool, setSelectedTool }) {
         {shouldShowFilters && (
           <Box
             sx={{
-              width: { xs: "100%", sm: "100%", md: "290px", lg: "338px" },
+              width: { xs: "100%", sm: "100%", md: "340px", lg: "400px" },
               flexShrink: 0,
               mt: { xs: "0px", md: "42px" },
               mb: { xs: "25px", lg: "0px" },
@@ -84,6 +85,7 @@ export default function HomePage({ selectedTool, setSelectedTool }) {
               hasCommonFiltersConfig={hasCommonFiltersConfig}
               hasGenomicAnnotationsConfig={hasGenomicAnnotationsConfig}
               hasOMOPFilters={hasOMOPFilters}
+              hasHPOFilters={hasHPOFilters}
             />
           </Box>
         )}

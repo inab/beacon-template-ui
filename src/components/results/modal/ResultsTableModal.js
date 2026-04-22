@@ -249,6 +249,7 @@ const ResultsTableModal = ({ open, subRow, onClose }) => {
       try {
         if (item && item.operator) {
           const out = { id: item.field, operator: item.operator, value: parseFloat(item.value) || item.value };
+          if (item.scope) out.scope = item.scope;
           return [out];
         }
         const id = item?.key ?? item?.id;

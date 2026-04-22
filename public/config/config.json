@@ -1,6 +1,6 @@
 {
   "beaconType": "singleBeacon",
-  "apiUrl": "http://localhost:3001/api",
+  "apiUrl": "/api",
   "apiUrlNetwork": "https://beacon-network-backend-demo.ega-archive.org/beacon-network/v2.0.0",
   "apiUrlSingle": "https://beacon-spain.ega-archive.org/api",
   "assemblyId": ["GRCh38", "GRCh37", "NCBI36"],
@@ -9,6 +9,7 @@
   "loginRequired": false,
   "appUrl": "https://beacons.bsc.es/",
   "omop": true,
+  "hpo": true,
 
   "variationType": [
     "DEL (Copy Number Loss)",
@@ -52,41 +53,39 @@
       "filterLabels": {
         "Demographics": [
           {
-            "key": "female",
+            "key": "Gender:F",
             "id": "NCIT:C16576",
             "label": "Female",
             "type": "ontology"
           },
           {
-            "key": "male",
+            "key": "Gender:M",
             "id": "NCIT:C20197",
             "label": "Male",
             "type": "ontology"
           },
           {
-            "key": "age_of_onset",
-            "id": "age_of_onset",
+            "key": "ageOfOnset",
+            "id": "ageOfOnset",
             "label": "Age Of Onset",
-            "type": "alphanumeric"
+            "type": "alphanumeric",
+            "valueType": "integer"
           },
           {
-            "key": "weight",
-            "id": "weight",
+            "key": "LOINC:29463-7",
+            "id": "LOINC:29463-7",
             "label": "Weight",
-            "type": "alphanumeric"
+            "type": "alphanumeric",
+            "valueType": "decimal",
+            "unit": "kg"
           },
           {
-            "key": "height",
-            "id": "height",
+            "key": "LOINC:8302-2",
+            "id": "LOINC:8302-2",
             "label": "Height",
-            "type": "alphanumeric"
-          },
-          {
-            "key": "label6",
-            "id": "label6",
-            "label": "label6",
-            "type": "ontology",
-            "scopes": ["observed"]
+            "type": "alphanumeric",
+            "valueType": "decimal",
+            "unit": "cm"
           }
         ],
         "Cancer": [
@@ -133,7 +132,7 @@
         ],
         "COVID": [
           {
-            "key": "COVID-19",
+            "key": "SNOMED:840539006",
             "label": "COVID-19",
             "type": "ontology",
             "id": "NCIT:C171222"
@@ -145,7 +144,7 @@
             "id": "NCIT:C2851"
           },
           {
-            "key": "Asthma",
+            "key": "SNOMED:195967001",
             "label": "Asthma",
             "type": "ontology",
             "id": "NCIT:C2985"
