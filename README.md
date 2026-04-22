@@ -21,8 +21,9 @@ This project is containerized with Docker and configured through JSON files, mak
 ## Getting Started
 
 ### Prerequisites
-- [Docker](https://www.docker.com/get-started) installed on your system
-- Access to a Beacon API endpoint
+- [Docker](https://www.docker.com/get-started) and Docker Compose installed
+- The OMOP-CDM database running (see [IMPaCT-Data tutorial](https://impact-data-ref-imp.readthedocs.io/es/latest/content/ref-imp/components/local/synthetic-data-generator.html))
+- The [Beacon OMOP-CDM API](https://gitlab.bsc.es/impact-data/impd-beacon_omopcdm) running
 
 ### Installation
 
@@ -33,42 +34,51 @@ git clone https://github.com/elixir-europe/beacon-ui.git
 cd beacon-ui
 ```
 
-### Build and run the container
+### Configuration
 
-```bash
-docker build -t beacon-ui .
-docker run -p 3000:3000 beacon-ui
+The UI proxies all `/api/` requests through Nginx to the Beacon API container. Two values depend on your local setup:
+
+**1. Docker network name** (`docker-compose.yml`)
+
+The UI joins the Docker network created by the database `docker-compose.yml`. That network is named `<folder-name>_beacon-network`, where `<folder-name>` is the name of the directory where you placed the database `docker-compose.yml`.
+
+If your database folder is **not** called `database`, create a `.env` file in this directory:
+
+```env
+DB_NETWORK=your-folder-name_beacon-network
 ```
 
-The UI will be available at: http://localhost:3000
+If your database folder is called `database`, no `.env` file is needed.
+
+**2. API container name** (`nginx.conf`)
+
+The Nginx proxy forwards requests to the API container by name. The default is:
+
+```
+beacon2-ri-api-main-beacon-omopcdm-alchemy-1
+```
+
+This name is generated from the folder where the API `docker-compose.yml` is run (`beacon2-ri-api-main`) plus the service name. If you run the API from a different folder, update line 28 of `nginx.conf` accordingly.
+
+### Build and run
+
+```bash
+docker compose up --build -d
+```
+
+The UI will be available at: http://localhost:8080
 
 
 ## Configuration
-All configuration is handled through JSON files located under envs/ .
-Default configuration is in:
-
-```arduino
-envs/default/config.json
-```
-
-Example structure:
-```json
-{
-  "API_URL": "https://your-beacon-instance.org/api",
-  "APP_TITLE": "Beacon Network",
-  "THEME": {
-    "primaryColor": "#005EB8"
-  }
-}
-```
+All configuration is handled through `public/config/config.json`.
 
 To customize:
 
-1- Edit envs/default/config.json (or create a new environment folder under envs/).
+1. Edit `public/config/config.json`.
 
-2- Rebuild the Docker image:
+2. Rebuild the Docker image:
 ```bash
-docker build -t beacon-ui .
+docker compose up --build -d
 ```
 
 ## Development
