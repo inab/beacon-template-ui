@@ -1,105 +1,93 @@
 # Beacon UI
 
-**Beacon UI** is the front-end of the ELIXIR Beacon Network.  
-It provides a user-friendly React-based interface to interact with Beacon API endpoints, enabling researchers to query genomic data across federated datasets through the [Beacon Specifications](https://docs.genomebeacons.org/).
-
-This project is containerized with Docker and configured through JSON files, making it easy to deploy and adapt to specific organizational needs.
+**Beacon UI** is the React-based front-end for the ELIXIR Beacon Network. It lets researchers query clinical data stored in an OMOP-CDM database through a Beacon v2 API.
 
 ---
 
-## Features
+## Installation
 
-- 🌐 **React-based front-end** for the Beacon API  
-- ⚡ Integrates directly with Beacon API endpoints  
-- 🐳 Dockerized deployment for easy setup and portability  
-- ⚙️ Configurable through `envs/default/config.json`  
-- 🎨 Customizable look and feel to fit organizational requirements  
+```bash
+git clone -b docs/local-setup https://github.com/inab/beacon-template-ui.git
+cd beacon-template-ui
+```
 
 ---
 
+## Prerequisites
 
-## Getting Started
-
-### Prerequisites
 - [Docker](https://www.docker.com/get-started) and Docker Compose installed
-- The OMOP-CDM database running (see [IMPaCT-Data tutorial](https://impact-data-ref-imp.readthedocs.io/es/latest/content/ref-imp/components/local/synthetic-data-generator.html))
-- The [Beacon OMOP-CDM API](https://gitlab.bsc.es/impact-data/impd-beacon_omopcdm) running
 
-### Installation
+- The **database** running — start it from `database/` with `docker compose up -d`. This creates a Docker network named after that folder (`<folder-name>_beacon-network`). If your folder is not called `database`, update `docker-compose.yml` to match:
 
-Clone the repository:
+  ```yaml
+  networks:
+    beacon-api-network:
+      external: true
+      name: <your-folder-name>_beacon-network
+  ```
 
-```bash
-git clone https://github.com/elixir-europe/beacon-ui.git
-cd beacon-ui
-```
+- The **Beacon API** running — start it from `impd-beacon_omopcdm/beacon2-ri-api-main/` with `docker compose up --build -d`. The UI uses Nginx to forward browser requests to the API container internally. Nginx identifies the API container by its Docker-assigned name, which is derived from the folder where you run the API. If you placed the API in a folder called `beacon2-ri-api-main`, no changes are needed. Otherwise, run `docker ps` to find the actual container name and update `nginx.conf`:
 
-### Configuration
+  ```nginx
+  location /api/ {
+      proxy_pass http://<your-container-name>:5050/api/;
+      ...
+  }
+  ```
 
-The UI proxies all `/api/` requests through Nginx to the Beacon API container. Two values depend on your local setup:
+Both services must be up before starting the UI.
 
-**1. Docker network name** (`docker-compose.yml`)
+---
 
-The UI joins the Docker network created by the database `docker-compose.yml`. That network is named `<folder-name>_beacon-network`, where `<folder-name>` is the name of the directory where you placed the database `docker-compose.yml`.
-
-If your database folder is **not** called `database`, create a `.env` file in this directory:
-
-```env
-DB_NETWORK=your-folder-name_beacon-network
-```
-
-If your database folder is called `database`, no `.env` file is needed.
-
-**2. API container name** (`nginx.conf`)
-
-The Nginx proxy forwards requests to the API container by name. The default is:
-
-```
-beacon2-ri-api-main-beacon-omopcdm-alchemy-1
-```
-
-This name is generated from the folder where the API `docker-compose.yml` is run (`beacon2-ri-api-main`) plus the service name. If you run the API from a different folder, update line 28 of `nginx.conf` accordingly.
-
-### Build and run
+## Start
 
 ```bash
 docker compose up --build -d
 ```
 
-The UI will be available at: http://localhost:8080
+The UI will be available at **http://localhost:8080**.
 
+> Always use `--build`. Source files are copied into the image at build time, so changes to `src/` or `public/` will not appear until you rebuild.
 
-## Configuration
-All configuration is handled through `public/config/config.json`.
+---
 
-To customize:
+## Customization
 
-1. Edit `public/config/config.json`.
+All UI behaviour is controlled by `public/config/config.json`. From there you can:
 
-2. Rebuild the Docker image:
+- Change the API URL
+- Enable or disable filter modules (`"omop": true`, `"hpo": true`)
+- Edit filter definitions, categories, and labels
+- Change colors and logos
+
+After editing this file, rebuild:
+
 ```bash
 docker compose up --build -d
 ```
 
-## Development
-If you want to run the app locally without Docker:
+---
+
+## Development (without Docker)
 
 ```bash
 yarn install
 yarn start
 ```
 
-The app will be available at http://localhost:3000
+The app runs at http://localhost:3000. Note that without Nginx, the `/api/` proxy is not available — you will need to set a full API URL in `public/config/config.json` and ensure the API has CORS configured.
 
+---
 
 ## Project structure
-```php
-├── envs/
-│   └── default/
-│       └── config.json
-├── src/
-├── public/
-├── docker-compose.yml
-└── README.md
 
+```
+beacon-ui/
+├── public/
+│   └── config/
+│       └── config.json       # Runtime configuration (API URL, filters, colors…)
+├── src/                      # React source code
+├── nginx.conf                # Nginx config — includes the /api/ proxy block
+├── docker-compose.yml
+└── Dockerfile
 ```
