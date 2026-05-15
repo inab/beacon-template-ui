@@ -287,6 +287,138 @@
       ]
     },
     {
+      "group_id": "urine-analytes-creatinine-ratio",
+      "label": "Urine analytes (creatinine ratio)",
+      "filters": [
+        {
+          "concept_id": 3020451,
+          "code": "LOINC:30068-1",
+          "vocabulary": "LOINC",
+          "label": "Alanine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3012157,
+          "code": "LOINC:30062-4",
+          "vocabulary": "LOINC",
+          "label": "Arginine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3022905,
+          "code": "LOINC:28603-9",
+          "vocabulary": "LOINC",
+          "label": "Asparagine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3025626,
+          "code": "LOINC:30061-6",
+          "vocabulary": "LOINC",
+          "label": "Aspartate/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3010077,
+          "code": "LOINC:30065-7",
+          "vocabulary": "LOINC",
+          "label": "Cystine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3009429,
+          "code": "LOINC:30059-0",
+          "vocabulary": "LOINC",
+          "label": "Glutamate/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3010955,
+          "code": "LOINC:30056-6",
+          "vocabulary": "LOINC",
+          "label": "Glutamine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3010616,
+          "code": "LOINC:30066-5",
+          "vocabulary": "LOINC",
+          "label": "Glycine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3027591,
+          "code": "LOINC:30047-5",
+          "vocabulary": "LOINC",
+          "label": "Histidine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3027105,
+          "code": "LOINC:30052-5",
+          "vocabulary": "LOINC",
+          "label": "Isoleucine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3028481,
+          "code": "LOINC:30053-3",
+          "vocabulary": "LOINC",
+          "label": "Leucine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3028430,
+          "code": "LOINC:30048-3",
+          "vocabulary": "LOINC",
+          "label": "Lysine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3026704,
+          "code": "LOINC:30063-2",
+          "vocabulary": "LOINC",
+          "label": "Methionine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3024713,
+          "code": "LOINC:30055-8",
+          "vocabulary": "LOINC",
+          "label": "Phenylalanine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3020453,
+          "code": "LOINC:30067-3",
+          "vocabulary": "LOINC",
+          "label": "Proline/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3011159,
+          "code": "LOINC:30057-4",
+          "vocabulary": "LOINC",
+          "label": "Threonine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3001544,
+          "code": "LOINC:28608-8",
+          "vocabulary": "LOINC",
+          "label": "Tryptophan/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3012665,
+          "code": "LOINC:30064-0",
+          "vocabulary": "LOINC",
+          "label": "Valine/Creatinine [Ratio] in Urine",
+          "ui_type": "range"
+        }
+      ]
+    },
+    {
       "group_id": "serum-plasma-analytes",
       "label": "Serum / Plasma analytes",
       "filters": [
@@ -578,6 +710,74 @@
       ]
     },
     {
+      "group_id": "functional-scales",
+      "label": "Functional scales",
+      "filters": [
+        {
+          "concept_id": 606289,
+          "code": "SNOMED:1144649008",
+          "vocabulary": "SNOMED",
+          "label": "6 minute walk test distance",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 4165127,
+          "code": "SNOMED:273633002",
+          "vocabulary": "SNOMED",
+          "label": "Motor assessment scale",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4159703,
+          "code": "SNOMED:273466005",
+          "vocabulary": "SNOMED",
+          "label": "Functional assessment measure",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4158616,
+          "code": "SNOMED:273636005",
+          "vocabulary": "SNOMED",
+          "label": "Movement of upper limb evaluation",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 3657389,
+          "code": "SNOMED:1167531000000107",
+          "vocabulary": "SNOMED",
+          "label": "PedsQL Generic Core Scale Young Child Report (ages 5-7)",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3657397,
+          "code": "SNOMED:1167671000000105",
+          "vocabulary": "SNOMED",
+          "label": "PedsQL Generic Core Scale Child Report (ages 8-12)",
+          "ui_type": "range"
+        },
+        {
+          "concept_id": 3657412,
+          "code": "SNOMED:1167861000000104",
+          "vocabulary": "SNOMED",
+          "label": "PedsQL Generic Core Scale Teen Report (ages 13-18)",
+          "ui_type": "range"
+        }
+      ]
+    },
+    {
+      "group_id": "functional-dependency",
+      "label": "Functional dependency",
+      "filters": [
+        {
+          "concept_id": 4043369,
+          "code": "SNOMED:129025006",
+          "vocabulary": "SNOMED",
+          "label": "Activity of daily living",
+          "ui_type": "checkbox"
+        }
+      ]
+    },
+    {
       "group_id": "genetic-data",
       "label": "Genetic data",
       "filters": [
@@ -596,10 +796,10 @@
           "ui_type": "text"
         },
         {
-          "concept_id": "81290-9",
-          "code": "LOINC:81290-9",
+          "concept_id": 3048796,
+          "code": "LOINC:48004-6",
           "vocabulary": "LOINC",
-          "label": "Genomic DNA change (gHGVS)",
+          "label": "DNA change (c.HGVS)",
           "ui_type": "text"
         },
         {
@@ -658,24 +858,24 @@
       "label": "Anthropometric measures",
       "filters": [
         {
-          "concept_id": 1153637007,
-          "code": "SNOMED:1153637007",
-          "vocabulary": "SNOMED",
+          "concept_id": 3036277,
+          "code": "LOINC:8302-2",
+          "vocabulary": "LOINC",
           "label": "Body height",
           "ui_type": "checkbox"
         },
         {
-          "concept_id": 27113001,
-          "code": "SNOMED:27113001",
-          "vocabulary": "SNOMED",
+          "concept_id": 3025315,
+          "code": "LOINC:29463-7",
+          "vocabulary": "LOINC",
           "label": "Body weight",
           "ui_type": "checkbox"
         },
         {
-          "concept_id": 363811000,
-          "code": "SNOMED:363811000",
-          "vocabulary": "SNOMED",
-          "label": "Head circumference measure",
+          "concept_id": 3000053,
+          "code": "LOINC:9843-4",
+          "vocabulary": "LOINC",
+          "label": "Head Occipital-frontal circumference",
           "ui_type": "checkbox"
         }
       ]

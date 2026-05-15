@@ -279,12 +279,12 @@ const ResultsTableModal = ({ open, subRow, onClose }) => {
         }
 
         if (t === "range") {
-          const min = f?.value?.min;
-          const max = f?.value?.max;
-          const parts = [];
-          if (min != null && String(min) !== "") parts.push({ id, operator: ">", value: Number(min) });
-          if (max != null && String(max) !== "") parts.push({ id, operator: "<", value: Number(max) });
-          return parts;
+          const op = f?.value?.op;
+          const val = f?.value?.value;
+          if (op != null && val != null && String(val) !== "") {
+            return [{ id, operator: op, value: Number(val) }];
+          }
+          return [];
         }
 
         if (f?.value != null && String(f.value).trim() !== "") {

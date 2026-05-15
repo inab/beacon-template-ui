@@ -63,9 +63,9 @@ export default function OmopFilters({ data, onChange }) {
   if (error) return <Typography color="error">Error: {error}</Typography>;
   if (!json) return <Typography>Cargando…</Typography>;
 
-  const groups = json.groups || [];
+  const groups = [...(json.groups || [])].sort((a, b) => a.label.localeCompare(b.label));
   const currentGroup = groups.find((g) => g.group_id === selectedGroup);
-  const filters = currentGroup?.filters || [];
+  const filters = [...(currentGroup?.filters || [])].sort((a, b) => a.label.localeCompare(b.label));
 
   const getFilterId = (f) => String(f?.code ?? f?.id ?? f?.label ?? "");
 
@@ -85,10 +85,7 @@ export default function OmopFilters({ data, onChange }) {
       const op = value?.op || "<";
       const raw = value?.num;
       if (raw === "" || raw == null || isNaN(Number(raw))) return null;
-      const n = Number(raw);
-      if (op === "<")  return { min: undefined, max: n };
-      if (op === ">")  return { min: n, max: undefined };
-      return { min: n, max: n };
+      return { op, value: Number(raw) };
     }
 
     if (value == null || String(value).trim() === "") return null;
@@ -266,9 +263,11 @@ export default function OmopFilters({ data, onChange }) {
                           "& .MuiSelect-icon": { color: primary },
                         }}
                       >
-                        <MenuItem value="<">&lt;</MenuItem>
-                        <MenuItem value=">">&gt;</MenuItem>
-                        <MenuItem value="=">=</MenuItem>
+                        <MenuItem value=">">{">"}</MenuItem>
+                        <MenuItem value=">=">{">="}</MenuItem>
+                        <MenuItem value="=">{"="}</MenuItem>
+                        <MenuItem value="<=">{"<="}</MenuItem>
+                        <MenuItem value="<">{"<"}</MenuItem>
                       </Select>
                     </FormControl>
 

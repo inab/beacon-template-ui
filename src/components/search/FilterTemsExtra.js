@@ -159,7 +159,9 @@ export default function FilterTermsExtra() {
             }}
           >
             <MenuItem value=">">{">"}</MenuItem>
+            <MenuItem value=">=">{">="}</MenuItem>
             <MenuItem value="=">{"="}</MenuItem>
+            <MenuItem value="<=">{"<="}</MenuItem>
             <MenuItem value="<">{"<"}</MenuItem>
           </Select>
         </FormControl>
