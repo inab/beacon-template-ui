@@ -845,8 +845,8 @@
           "ui_type": "checkbox"
         },
         {
-          "concept_id": "81263-6",
-          "code": "LOINC:81263-6",
+          "concept_id": "81289-1",
+          "code": "LOINC:81289-1",
           "vocabulary": "LOINC",
           "label": "Structural variant [Type]",
           "ui_type": "select"
