@@ -91,41 +91,41 @@
         ],
         "Cancer": [
           {
-            "key": "Colon adenocarcinoma",
+            "key": "NCIT:C4910",
             "label": "Colon adenocarcinoma",
             "type": "ontology",
             "id": "NCIT:C4910",
             "scopes": ["observed", "unobserved"]
           },
           {
-            "key": "Breast Cancer",
+            "key": "NCIT:C4872",
             "label": "Breast Cancer",
             "type": "ontology",
             "id": "NCIT:C4872",
             "scopes": ["individual", "biosample", "cohort"]
           },
           {
-            "key": "Radiation therapy",
+            "key": "NCIT:C15313",
             "label": "Radiation therapy",
             "type": "ontology",
             "id": "NCIT:C15313",
             "scopes": ["cohorts"]
           },
           {
-            "key": "Chemotherapy",
+            "key": "NCIT:C15632",
             "label": "Chemotherapy",
             "type": "ontology",
             "id": "NCIT:C15632",
             "scopes": ["run", "individual", "cohort"]
           },
           {
-            "key": "Tumor stage I",
+            "key": "NCIT:C27966",
             "label": "Tumor stage I",
             "type": "ontology",
             "id": "NCIT:C27966"
           },
           {
-            "key": "Oxaliplatin",
+            "key": "NCIT:C65110",
             "label": "Oxaliplatin",
             "type": "ontology",
             "id": "NCIT:C65110"
@@ -139,7 +139,7 @@
             "id": "NCIT:C171222"
           },
           {
-            "key": "Immunocompromised",
+            "key": "NCIT:C2851",
             "label": "Immunocompromised",
             "type": "ontology",
             "id": "NCIT:C2851"
@@ -151,19 +151,19 @@
             "id": "NCIT:C2985"
           },
           {
-            "key": "Hospitalization",
+            "key": "NCIT:C25179",
             "label": "Hospitalization",
             "type": "ontology",
             "id": "NCIT:C25179"
           },
           {
-            "key": "Intubation",
+            "key": "NCIT:C38097",
             "label": "Intubation",
             "type": "ontology",
             "id": "NCIT:C38097"
           },
           {
-            "key": "Intensive Care Unit Stay",
+            "key": "NCIT:C25463",
             "label": "Intensive Care Unit Stay",
             "type": "ontology",
             "id": "NCIT:C25463"
