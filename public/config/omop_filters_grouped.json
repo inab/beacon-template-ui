@@ -691,21 +691,21 @@
           "code": "SNOMED:273918007",
           "vocabulary": "SNOMED",
           "label": "Wechsler intelligence scale for children",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         },
         {
           "concept_id": 273922002,
           "code": "SNOMED:273922002",
           "vocabulary": "SNOMED",
           "label": "Wechsler pre-school and primary scale of intelligence",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         },
         {
           "concept_id": 273305007,
           "code": "SNOMED:273305007",
           "vocabulary": "SNOMED",
           "label": "Bayley scale of infant development",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         }
       ]
     },
@@ -725,21 +725,21 @@
           "code": "SNOMED:273633002",
           "vocabulary": "SNOMED",
           "label": "Motor assessment scale",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         },
         {
           "concept_id": 4159703,
           "code": "SNOMED:273466005",
           "vocabulary": "SNOMED",
           "label": "Functional assessment measure",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         },
         {
           "concept_id": 4158616,
           "code": "SNOMED:273636005",
           "vocabulary": "SNOMED",
           "label": "Movement of upper limb evaluation",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         },
         {
           "concept_id": 3657389,
@@ -773,7 +773,8 @@
           "code": "SNOMED:129025006",
           "vocabulary": "SNOMED",
           "label": "Activity of daily living",
-          "ui_type": "checkbox"
+          "ui_type": "text",
+          "valueType": "integer"
         }
       ]
     },
@@ -786,70 +787,79 @@
           "code": "LOINC:48005-3",
           "vocabulary": "LOINC",
           "label": "Amino acid change (pHGVS)",
-          "ui_type": "text"
+          "ui_type": "text",
+          "valueType": "character"
         },
         {
           "concept_id": "48018-6",
           "code": "LOINC:48018-6",
           "vocabulary": "LOINC",
           "label": "Gene studied [ID]",
-          "ui_type": "text"
+          "ui_type": "text",
+          "valueType": "character"
         },
         {
           "concept_id": 3048796,
           "code": "LOINC:48004-6",
           "vocabulary": "LOINC",
           "label": "DNA change (c.HGVS)",
-          "ui_type": "text"
+          "ui_type": "text",
+          "valueType": "character"
         },
         {
           "concept_id": "94186-4",
           "code": "LOINC:94186-4",
           "vocabulary": "LOINC",
           "label": "Origin of germline genetic variant [Type]",
-          "ui_type": "select"
+          "ui_type": "text",
+          "valueType": "integer"
         },
         {
           "concept_id": "51958-7",
           "code": "LOINC:51958-7",
           "vocabulary": "LOINC",
           "label": "Transcript reference sequence [ID]",
-          "ui_type": "text"
+          "ui_type": "text",
+          "valueType": "character"
         },
         {
           "concept_id": "83005-9",
           "code": "LOINC:83005-9",
           "vocabulary": "LOINC",
           "label": "Variant category",
-          "ui_type": "checkbox"
+          "ui_type": "text",
+          "valueType": "integer"
         },
         {
           "concept_id": "53037-8",
           "code": "LOINC:53037-8",
           "vocabulary": "LOINC",
           "label": "Genetic variation clinical significance [Imp]",
-          "ui_type": "range"
+          "ui_type": "text"
         },
         {
           "concept_id": "53034-5",
           "code": "LOINC:53034-5",
           "vocabulary": "LOINC",
           "label": "Allelic state",
-          "ui_type": "checkbox"
+          "ui_type": "text",
+          "valueType": "integer"
         },
         {
           "concept_id": "81263-6",
           "code": "LOINC:81263-6",
           "vocabulary": "LOINC",
           "label": "Complex variant type",
-          "ui_type": "checkbox"
+          "ui_type": "text",
+          "valueType": "integer"
         },
         {
           "concept_id": "81289-1",
           "code": "LOINC:81289-1",
           "vocabulary": "LOINC",
           "label": "Structural variant [Type]",
-          "ui_type": "select"
+          "ui_type": "text",
+          "valueType": "integer"
         }
       ]
     },
@@ -862,21 +872,21 @@
           "code": "LOINC:8302-2",
           "vocabulary": "LOINC",
           "label": "Body height",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         },
         {
           "concept_id": 3025315,
           "code": "LOINC:29463-7",
           "vocabulary": "LOINC",
           "label": "Body weight",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         },
         {
           "concept_id": 3000053,
           "code": "LOINC:9843-4",
           "vocabulary": "LOINC",
           "label": "Head Occipital-frontal circumference",
-          "ui_type": "checkbox"
+          "ui_type": "range"
         }
       ]
     }

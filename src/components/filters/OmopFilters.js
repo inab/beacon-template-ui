@@ -31,6 +31,7 @@ export default function OmopFilters({ data, onChange }) {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [value, setValue] = useState(null);
   const [rangeError, setRangeError] = useState("");
+  const [textError, setTextError] = useState("");
   const { setOmopFilters } = useSelectedEntry();
 
   const CFG = globalThis.CONFIG ?? {};
@@ -99,7 +100,10 @@ export default function OmopFilters({ data, onChange }) {
       const num = value?.num;
       return num !== "" && num != null && !isNaN(Number(num));
     }
-    return value != null && String(value).trim() !== "";
+    if (value == null || String(value).trim() === "") return false;
+    const vt = (selectedFilter?.valueType || "").toLowerCase();
+    if (vt === "integer") return /^-?\d+$/.test(String(value).trim());
+    return true;
   };
 
   const handleAddFilter = () => {
@@ -166,6 +170,7 @@ export default function OmopFilters({ data, onChange }) {
               setSelectedFilter(f);
               setValue(null);
               setRangeError("");
+              setTextError("");
             }}
             sx={{
                 "& .MuiSelect-select": {
@@ -203,7 +208,7 @@ export default function OmopFilters({ data, onChange }) {
             </Typography>
             <IconButton
               size="small"
-              onClick={() => { setSelectedFilter(null); setValue(null); setRangeError(""); }}
+              onClick={() => { setSelectedFilter(null); setValue(null); setRangeError(""); setTextError(""); }}
               sx={{ color: "#9E9E9E", "&:hover": { color: "#555" } }}
             >
               <CloseIcon fontSize="small" />
@@ -310,20 +315,33 @@ export default function OmopFilters({ data, onChange }) {
               }
 
               if (type === "text") {
+                const vt = (selectedFilter.valueType || "").toLowerCase();
+                const placeholder = vt === "integer" ? "e.g. 42" : vt === "character" ? "e.g. NM_000123" : "Value";
                 return (
                   <TextField
                     fullWidth
-                    label="Valor"
+                    label="Value"
+                    placeholder={placeholder}
                     value={value || ""}
-                    onChange={(e) => setValue(e.target.value)}
+                    error={!!textError}
+                    helperText={textError}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (vt === "integer") {
+                        if (v !== "" && !/^-?\d+$/.test(v)) {
+                          setTextError("Please enter a whole number (e.g. 42).");
+                        } else {
+                          setTextError("");
+                        }
+                      } else {
+                        setTextError("");
+                      }
+                      setValue(v);
+                    }}
                     sx={{
-                      '& label.Mui-focused': {
-                        color: primary,
-                      },
+                      '& label.Mui-focused': { color: primary },
                       '& .MuiOutlinedInput-root': {
-                        '&.Mui-focused fieldset': {
-                          borderColor: primary,
-                        },
+                        '&.Mui-focused fieldset': { borderColor: primary },
                       },
                     }}
                   />
