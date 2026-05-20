@@ -8,6 +8,7 @@ import {
   searchFilteringTerms,
   handleFilterSelection,
   getDisplayLabelAndScope,
+  ensureColonSeparator,
 } from "../common/filteringTermsHelpers";
 
 const FilteringTermsDropdownResults = ({ searchInput, onCloseDropdown }) => {
@@ -96,9 +97,10 @@ const FilteringTermsDropdownResults = ({ searchInput, onCloseDropdown }) => {
               const { displayLabel, selectedScope, allScopes } =
                 getDisplayLabelAndScope(term, selectedEntryType);
 
+              const termId = ensureColonSeparator(term.id);
               const item = {
-                key: term.id,
-                label: displayLabel?.trim() ? displayLabel : term.id,
+                key: termId,
+                label: displayLabel?.trim() ? displayLabel : termId,
                 type: term.type,
                 scope: selectedScope || null,
                 scopes: allScopes || [],

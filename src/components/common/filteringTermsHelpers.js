@@ -1,6 +1,14 @@
 import Fuse from "fuse.js";
 import { COMMON_MESSAGES } from "../common/CommonMessage";
 
+const KNOWN_VOCABULARIES = ["SNOMED", "LOINC", "Gender", "Race", "RxNorm", "HP"];
+
+export function ensureColonSeparator(id) {
+  if (!id || id.includes(":")) return id;
+  const vocab = KNOWN_VOCABULARIES.find((v) => id.startsWith(v));
+  return vocab ? `${vocab}:${id.slice(vocab.length)}` : id;
+}
+
 export function assignDefaultScopesToTerms(
   terms,
   defaultScope,
