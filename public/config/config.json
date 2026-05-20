@@ -28,6 +28,7 @@
       "cohorts",
       "datasets"
     ],
+    "visibleEntryTypes": ["individuals"],
     "showExternalNavBarLink": false,
 
     "showAboutPage": true,

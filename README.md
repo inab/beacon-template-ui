@@ -53,18 +53,62 @@ The UI will be available at **http://localhost:8080**.
 
 ## Customization
 
-All UI behaviour is controlled by `public/config/config.json`. From there you can:
-
-- Change the API URL
-- Enable or disable filter modules (`"omop": true`, `"hpo": true`)
-- Edit filter definitions, categories, and labels
-- Change colors and logos
-
-After editing this file, rebuild:
+All UI behaviour is controlled by `public/config/config.json`. After editing this file, rebuild:
 
 ```bash
 docker compose up --build -d
 ```
+
+### Entry types
+
+By default the UI shows all entry types returned by the API (`individuals`, `biosamples`, `cohorts`, etc.). To restrict which ones appear, set `visibleEntryTypes` inside the `ui` block:
+
+```json
+"ui": {
+  "visibleEntryTypes": ["individuals"]
+}
+```
+
+Only the entry types listed here will be shown. The order of the buttons follows `entryTypesOrder` (also inside `ui`). To show everything, set an empty array or remove the key entirely:
+
+```json
+"ui": {
+  "visibleEntryTypes": []
+}
+```
+
+### Filter modules
+
+Enable or disable the filter panels in the sidebar:
+
+```json
+"omop": true,   // OMOP Filters panel
+"hpo": true     // HPO Filters panel
+```
+
+Common Filters are always shown if `ui.commonFilters` is defined.
+
+### Colors and logos
+
+```json
+"ui": {
+  "colors": {
+    "primary": "#023452",
+    "secondary": "#f47d20"
+  },
+  "logos": {
+    "main": "/assets/logos/elixir.png"
+  }
+}
+```
+
+### API URL
+
+```json
+"apiUrl": "/api"
+```
+
+Leave as `/api` when running with Docker (Nginx proxies internally). Set to a full URL (e.g. `http://localhost:5050/api`) only when developing without Docker.
 
 ---
 

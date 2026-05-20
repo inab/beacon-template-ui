@@ -83,7 +83,13 @@ export default function Search({
   function isUniquePathSegment(entry, index, self) {
     return index === self.findIndex(e => e.pathSegment === entry.pathSegment);
   }
-  
+
+  function isVisibleEntryType(entry) {
+    const visible = CONFIG.ui.visibleEntryTypes;
+    if (!Array.isArray(visible) || visible.length === 0) return true;
+    return visible.includes(entry.pathSegment);
+  }
+
   useEffect(() => {
     const fetchEntryTypes = async () => {
       try {
@@ -96,7 +102,8 @@ export default function Search({
         const entries = Object.entries(endpointSets)
           .filter(filterGenomicVariation)
           .map(mapEntry)
-          .filter(isUniquePathSegment);
+          .filter(isUniquePathSegment)
+          .filter(isVisibleEntryType);
 
         const sorted = sortEntries(entries);
         setEntryTypes(sorted);
