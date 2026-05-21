@@ -43,12 +43,12 @@ export default function QueryAppliedItems({
     const [onto, code] = String(f.id || "").split(":");
     const t = (f.uiType || "checkbox").toLowerCase();
     if (t === "range") {
-      const min = f.value?.min;
-      const max = f.value?.max;
-      const parts = [];
-      if (min != null && min !== "") parts.push(`>${min}`);
-      if (max != null && max !== "") parts.push(`<${max}`);
-      return `${onto || "TERM"}:${code || ""}${parts.length ? " • " + parts.join(", ") : ""}`;
+      const op = f.value?.op;
+      const val = f.value?.value;
+      if (op != null && val != null) {
+        return `${onto || "TERM"}:${code || ""} • ${op} ${val}`;
+      }
+      return `${onto || "TERM"}:${code || ""}`;
     }
     if (t === "text" || t === "select") {
       const displayValue = f.valueLabel ?? f.value;
