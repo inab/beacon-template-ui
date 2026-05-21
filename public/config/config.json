@@ -54,16 +54,13 @@
       "filterLabels": {
         "Demographics": [
           {
-            "key": "Gender:F",
-            "id": "NCIT:C16576",
-            "label": "Female",
-            "type": "ontology"
-          },
-          {
-            "key": "Gender:M",
-            "id": "NCIT:C20197",
-            "label": "Male",
-            "type": "ontology"
+            "label": "Gender",
+            "type": "gender-select",
+            "options": [
+              { "label": "Female", "key": "Gender:F" },
+              { "label": "Male", "key": "Gender:M" },
+              { "label": "Unknown", "key": "Gender:U" }
+            ]
           },
           {
             "key": "ageOfOnset",

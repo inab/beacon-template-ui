@@ -4,8 +4,12 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Menu,
+  MenuItem,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
 import { useSelectedEntry } from "./../context/SelectedEntryContext";
 import CommonMessage, {
@@ -13,6 +17,74 @@ import CommonMessage, {
 } from "../../components/common/CommonMessage";
 import { getDisplayLabelAndScope } from "../common/filteringTermsHelpers";
 import FilterLabelRemovable from "../styling/FilterLabelRemovable";
+
+function GenderSelect({ item, onSelect }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const primary = globalThis.CONFIG?.ui?.colors?.primary || "#1976d2";
+  const bg = alpha(primary, 0.05);
+  const hoverBg = alpha(primary, 0.15);
+
+  return (
+    <>
+      <Box
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        sx={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 0.5,
+          height: 32,
+          padding: "4px 12px",
+          borderRadius: "8px",
+          border: "1px solid black",
+          backgroundColor: bg,
+          cursor: "pointer",
+          transition: "background-color 0.2s ease",
+          "&:hover": { backgroundColor: hoverBg },
+        }}
+      >
+        <Typography sx={{ fontSize: "14px" }}>{item.label}</Typography>
+        <KeyboardArrowDownIcon
+          sx={{
+            fontSize: 16,
+            opacity: 0.7,
+            transform: open ? "rotate(180deg)" : "none",
+            transition: "transform 0.2s",
+          }}
+        />
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        transformOrigin={{ vertical: "top", horizontal: "left" }}
+        sx={{
+          "& .MuiPaper-root": {
+            borderRadius: "8px",
+            border: "1px solid black",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            mt: 0.5,
+          },
+        }}
+      >
+        {item.options.map((opt) => (
+          <MenuItem
+            key={opt.key}
+            onClick={() => {
+              onSelect({ key: opt.key, label: opt.label, type: "ontology" });
+              setAnchorEl(null);
+            }}
+            sx={{ fontSize: "14px", py: 0.75 }}
+          >
+            {opt.label}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+}
 
 export default function CommonFilters() {
   const filterCategories = CONFIG.ui.commonFilters.filterCategories;
@@ -141,6 +213,16 @@ export default function CommonFilters() {
                   }}
                 >
                   {validLabels.map((item) => {
+                    if (item.type === "gender-select") {
+                      return (
+                        <GenderSelect
+                          key={item.label}
+                          item={item}
+                          onSelect={handleCommonFilterChange}
+                        />
+                      );
+                    }
+
                     const { selectedScope, allScopes } =
                       getDisplayLabelAndScope(item, selectedPathSegment);
 

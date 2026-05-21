@@ -55,6 +55,159 @@
           "vocabulary": "SNOMED",
           "label": "Family history of consanguinity",
           "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4083519,
+          "code": "SNOMED:281666001",
+          "vocabulary": "SNOMED",
+          "label": "Family history of disorder",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4050799,
+          "code": "SNOMED:160301004",
+          "vocabulary": "SNOMED",
+          "label": "Family history of endocrine disorders",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4051572,
+          "code": "SNOMED:160341008",
+          "vocabulary": "SNOMED",
+          "label": "FH: Epilepsy",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 35622230,
+          "code": "SNOMED:763598005",
+          "vocabulary": "SNOMED",
+          "label": "Family history of intellectual disability",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4051564,
+          "code": "SNOMED:160305008",
+          "vocabulary": "SNOMED",
+          "label": "Family history of metabolic disorder",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4051568,
+          "code": "SNOMED:160324006",
+          "vocabulary": "SNOMED",
+          "label": "Family history of mental disorder",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4051573,
+          "code": "SNOMED:160343006",
+          "vocabulary": "SNOMED",
+          "label": "FH: Muscular dystrophy",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4145796,
+          "code": "SNOMED:266907002",
+          "vocabulary": "SNOMED",
+          "label": "FH: Musculoskeletal disease",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 43021274,
+          "code": "SNOMED:473070008",
+          "vocabulary": "SNOMED",
+          "label": "Family history of mitochondrial disease",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4326813,
+          "code": "SNOMED:430814002",
+          "vocabulary": "SNOMED",
+          "label": "Family history of neuropathy",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 46270570,
+          "code": "SNOMED:64021000119106",
+          "vocabulary": "SNOMED",
+          "label": "Family history of neurological developmental delay",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 42537795,
+          "code": "SNOMED:737366005",
+          "vocabulary": "SNOMED",
+          "label": "Family history of nutritional disorder",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4326337,
+          "code": "SNOMED:430334006",
+          "vocabulary": "SNOMED",
+          "label": "Family history of problem behavior",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 4327587,
+          "code": "SNOMED:430711004",
+          "vocabulary": "SNOMED",
+          "label": "Family history of seizure disorder",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 764759,
+          "code": "SNOMED:59551000119100",
+          "vocabulary": "SNOMED",
+          "label": "Family history of hereditary disease carrier state",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 1074783,
+          "code": "SNOMED:597941000005106",
+          "vocabulary": "SNOMED",
+          "label": "Family history of congenital malformation",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 1242943,
+          "code": "SNOMED:1290168002",
+          "vocabulary": "SNOMED",
+          "label": "Family history of neonatal death",
+          "ui_type": "checkbox"
+        }
+      ]
+    },
+    {
+      "group_id": "neonatal",
+      "label": "Neonatal",
+      "filters": [
+        {
+          "concept_id": 4217564,
+          "code": "SNOMED:395507008",
+          "vocabulary": "SNOMED",
+          "label": "Premature infant",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 36716685,
+          "code": "SNOMED:722839000",
+          "vocabulary": "SNOMED",
+          "label": "Baby premature at delivery less than 23 weeks",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 36716686,
+          "code": "SNOMED:722840003",
+          "vocabulary": "SNOMED",
+          "label": "Baby premature at delivery 23 completed weeks",
+          "ui_type": "checkbox"
+        },
+        {
+          "concept_id": 37151529,
+          "code": "SNOMED:1237576009",
+          "vocabulary": "SNOMED",
+          "label": "Baby premature at delivery less than 32 weeks",
+          "ui_type": "checkbox"
         }
       ]
     },
@@ -807,14 +960,6 @@
           "valueType": "character"
         },
         {
-          "concept_id": "94186-4",
-          "code": "LOINC:94186-4",
-          "vocabulary": "LOINC",
-          "label": "Origin of germline genetic variant [Type]",
-          "ui_type": "text",
-          "valueType": "integer"
-        },
-        {
           "concept_id": "51958-7",
           "code": "LOINC:51958-7",
           "vocabulary": "LOINC",
@@ -827,39 +972,79 @@
           "code": "LOINC:83005-9",
           "vocabulary": "LOINC",
           "label": "Variant category",
-          "ui_type": "text",
-          "valueType": "integer"
+          "ui_type": "select",
+          "options": [
+            { "label": "Simple", "concept_id": 42530691 },
+            { "label": "Structural", "concept_id": 42531081 }
+          ]
         },
         {
           "concept_id": "53037-8",
           "code": "LOINC:53037-8",
           "vocabulary": "LOINC",
           "label": "Genetic variation clinical significance [Imp]",
-          "ui_type": "text"
+          "ui_type": "select",
+          "options": [
+            { "label": "Benign", "concept_id": 45880925 },
+            { "label": "Likely benign", "concept_id": 21498359 },
+            { "label": "Uncertain significance", "concept_id": 21498841 },
+            { "label": "Likely pathogenic", "concept_id": 21498358 },
+            { "label": "Pathogenic", "concept_id": 45884094 }
+          ]
         },
         {
           "concept_id": "53034-5",
           "code": "LOINC:53034-5",
           "vocabulary": "LOINC",
           "label": "Allelic state",
-          "ui_type": "text",
-          "valueType": "integer"
+          "ui_type": "select",
+          "options": [
+            { "label": "Hemizygous", "concept_id": 45881811 },
+            { "label": "Heteroplasmic", "concept_id": 45881812 },
+            { "label": "Heterozygous", "concept_id": 45880311 },
+            { "label": "Homoplasmic", "concept_id": 45881184 },
+            { "label": "Homozygous", "concept_id": 45878253 }
+          ]
+        },
+        {
+          "concept_id": "94186-4",
+          "code": "LOINC:94186-4",
+          "vocabulary": "LOINC",
+          "label": "Origin of germline genetic variant [Type]",
+          "ui_type": "select",
+          "options": [
+            { "label": "De novo", "concept_id": 42531103 },
+            { "label": "Maternal", "concept_id": 21498450 },
+            { "label": "Parental", "concept_id": 36662392 },
+            { "label": "Paternal", "concept_id": 21498451 },
+            { "label": "Unknown", "concept_id": 45877986 }
+          ]
         },
         {
           "concept_id": "81263-6",
           "code": "LOINC:81263-6",
           "vocabulary": "LOINC",
           "label": "Complex variant type",
-          "ui_type": "text",
-          "valueType": "integer"
+          "ui_type": "select",
+          "options": [
+            { "label": "Compound heterozygous", "concept_id": 21498440 },
+            { "label": "Double heterozygous", "concept_id": 21499072 },
+            { "label": "Haplotype", "concept_id": 21499073 },
+            { "label": "Hemizygous", "concept_id": 45881811 }
+          ]
         },
         {
-          "concept_id": "81289-1",
-          "code": "LOINC:81289-1",
-          "vocabulary": "LOINC",
-          "label": "Structural variant [Type]",
-          "ui_type": "text",
-          "valueType": "integer"
+          "concept_id": 3051367,
+          "code": "OMOP:3051367",
+          "vocabulary": "OMOP",
+          "label": "DNA change type",
+          "ui_type": "select",
+          "options": [
+            { "label": "Deletion", "concept_id": 45879448 },
+            { "label": "Duplication", "concept_id": 45879451 },
+            { "label": "Insertion", "concept_id": 45878601 },
+            { "label": "Insertion/Deletion", "concept_id": 45878002 }
+          ]
         }
       ]
     },

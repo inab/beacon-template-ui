@@ -51,7 +51,8 @@ export default function QueryAppliedItems({
       return `${onto || "TERM"}:${code || ""}${parts.length ? " • " + parts.join(", ") : ""}`;
     }
     if (t === "text" || t === "select") {
-      return `${onto || "TERM"}:${code || ""}${f.value ? ` • = ${f.value}` : ""}`;
+      const displayValue = f.valueLabel ?? f.value;
+      return `${onto || "TERM"}:${code || ""}${displayValue != null ? ` • = ${displayValue}` : ""}`;
     }
     // checkbox
     return `${onto || "TERM"}:${code || ""}`;

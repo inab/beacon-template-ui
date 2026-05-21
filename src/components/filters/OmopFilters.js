@@ -89,6 +89,8 @@ export default function OmopFilters({ data, onChange }) {
       return { op, value: Number(raw) };
     }
 
+    if (t === "select") return value == null ? null : value;
+
     if (value == null || String(value).trim() === "") return null;
     return String(value);
   };
@@ -100,6 +102,7 @@ export default function OmopFilters({ data, onChange }) {
       const num = value?.num;
       return num !== "" && num != null && !isNaN(Number(num));
     }
+    if (t === "select") return value != null;
     if (value == null || String(value).trim() === "") return false;
     const vt = (selectedFilter?.valueType || "").toLowerCase();
     if (vt === "integer") return /^-?\d+$/.test(String(value).trim());
@@ -115,9 +118,13 @@ export default function OmopFilters({ data, onChange }) {
     const normalized = normalizeValueForContext(uiType, value);
     if (normalized === null) return;
 
-    setOmopFilters((prev) =>
-      upsertFilter(prev, { id, uiType, value: normalized })
-    );
+    const entry = { id, uiType, value: normalized };
+    if (uiType === "select") {
+      const opt = (selectedFilter.options || []).find((o) => o.concept_id === value);
+      if (opt) entry.valueLabel = opt.label;
+    }
+
+    setOmopFilters((prev) => upsertFilter(prev, entry));
 
     setSelectedFilter(null);
     setValue(null);
@@ -349,23 +356,25 @@ export default function OmopFilters({ data, onChange }) {
               }
 
               if (type === "select") {
+                const opts = selectedFilter.options || [];
                 return (
-                  <FormControl fullWidth>
-                    <InputLabel sx={{ color: primary }}>Valor</InputLabel>
+                  <FormControl fullWidth size="small">
+                    <InputLabel>Value</InputLabel>
                     <Select
-                      value={value || ''}
-                      onChange={(e) => setValue(e.target.value)}
+                      value={value ?? ""}
+                      label="Value"
+                      onChange={(e) => setValue(e.target.value === "" ? null : e.target.value)}
                       sx={{
-                        '.MuiOutlinedInput-notchedOutline': { borderColor: primary },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          borderColor: primary,
-                        },
-                        '& .MuiSelect-icon': { color: primary },
+                        "& .MuiSelect-select": { paddingTop: "5px", paddingBottom: "5px", paddingLeft: "12px", paddingRight: "32px" },
+                        "& .MuiOutlinedInput-notchedOutline": { borderColor: "rgba(0,0,0,0.23)" },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: primary },
+                        "& .MuiSelect-icon": { color: primary },
                       }}
                     >
                       <MenuItem value=""><em>Select…</em></MenuItem>
-                      <MenuItem value="Yes">Yes</MenuItem>
-                      <MenuItem value="No">No</MenuItem>
+                      {opts.map((o) => (
+                        <MenuItem key={o.concept_id} value={o.concept_id}>{o.label}</MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 );
