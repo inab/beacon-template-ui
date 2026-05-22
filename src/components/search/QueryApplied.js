@@ -9,7 +9,7 @@ export default function QueryApplied({ variant }) {
     setLoadingData,
     setResultData,
     setHasSearchResult,
-    omopFilters,
+    setOmopFilters,
   } = useSelectedEntry();
 
   const primaryDarkColor = CONFIG.ui.colors.darkPrimary;
@@ -69,6 +69,7 @@ export default function QueryApplied({ variant }) {
             <Button
               onClick={() => {
                 setSelectedFilter([]);
+                setOmopFilters([]);
                 setResultData([]);
                 setLoadingData(false);
                 setHasSearchResult(false);

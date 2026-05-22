@@ -1053,20 +1053,6 @@
       "label": "Anthropometric measures",
       "filters": [
         {
-          "concept_id": 3036277,
-          "code": "LOINC:8302-2",
-          "vocabulary": "LOINC",
-          "label": "Body height",
-          "ui_type": "range"
-        },
-        {
-          "concept_id": 3025315,
-          "code": "LOINC:29463-7",
-          "vocabulary": "LOINC",
-          "label": "Body weight",
-          "ui_type": "range"
-        },
-        {
           "concept_id": 3000053,
           "code": "LOINC:9843-4",
           "vocabulary": "LOINC",
