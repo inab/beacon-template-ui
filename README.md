@@ -7,7 +7,7 @@
 ## Installation
 
 ```bash
-git clone -b docs/local-setup https://github.com/inab/beacon-template-ui.git
+git clone -b dev https://github.com/inab/beacon-template-ui.git
 cd beacon-template-ui
 ```
 
