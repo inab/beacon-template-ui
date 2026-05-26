@@ -926,8 +926,11 @@
           "code": "SNOMED:129025006",
           "vocabulary": "SNOMED",
           "label": "Activity of daily living",
-          "ui_type": "text",
-          "valueType": "integer"
+          "ui_type": "select",
+          "options": [
+            { "label": "Functionally dependent", "concept_id": 36713755 },
+            { "label": "Functionally independent", "concept_id": 37397657 }
+          ]
         }
       ]
     },
