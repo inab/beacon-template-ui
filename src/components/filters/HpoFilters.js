@@ -51,9 +51,10 @@ export default function HpoFilters() {
   }, [query]);
 
   const handleSelect = (term) => {
+    const termId = term.id.replace(":", "_");
     const item = {
-      key: term.id,
-      id: term.id,
+      key: termId,
+      id: termId,
       label: term.name,
       type: "ontology",
       scope: null,

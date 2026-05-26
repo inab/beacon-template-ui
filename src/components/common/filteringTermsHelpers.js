@@ -1,10 +1,18 @@
 import Fuse from "fuse.js";
 import { COMMON_MESSAGES } from "../common/CommonMessage";
 
-const KNOWN_VOCABULARIES = ["SNOMED", "LOINC", "Gender", "Race", "RxNorm", "HP"];
+const KNOWN_VOCABULARIES = ["SNOMED", "LOINC", "Gender", "Race", "RxNorm"];
 
 export function ensureColonSeparator(id) {
   if (!id || id.includes(":")) return id;
+  // HPO: vocabulary_id='HPO' + concept_code='HP_XXXXXXX' → 'HPOHP_XXXXXXX'
+  if (id.startsWith("HPOHP_")) {
+    return id.slice("HPO".length); // 'HP_XXXXXXX'
+  }
+  // HP: vocabulary_id='HP' + concept_code='XXXXXXX' → 'HPXXXXXXX' (needs underscore, not colon)
+  if (id.startsWith("HP") && !id.includes("_")) {
+    return "HP_" + id.slice(2);
+  }
   const vocab = KNOWN_VOCABULARIES.find((v) => id.startsWith(v));
   return vocab ? `${vocab}:${id.slice(vocab.length)}` : id;
 }
