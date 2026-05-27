@@ -22,7 +22,8 @@ export default function NetworkMembers() {
     const ac = new AbortController();
     (async () => {
       try {
-        const res = await fetch(`${window.CONFIG.apiUrl}/info`, {
+        const baseUrl = window.CONFIG.beaconType === "networkBeacon" ? window.CONFIG.apiUrlNetwork : window.CONFIG.apiUrl;
+        const res = await fetch(`${baseUrl}/info`, {
           cache: "no-store",
           signal: ac.signal,
         });

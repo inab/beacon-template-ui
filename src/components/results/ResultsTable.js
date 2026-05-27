@@ -93,6 +93,7 @@ export default function ResultsTable() {
       });
     }
 
+    if (!beacon) return null;
     const logo = beacon.response
       ? beacon.response?.organization?.logoUrl
       : beacon.organization?.logoUrl;
@@ -109,6 +110,7 @@ export default function ResultsTable() {
         return id === beaconId;
       });
     }
+    if (!beacon) return null;
     const email = beacon.response
       ? beacon.response?.organization?.contactUrl
       : beacon.organization?.contactUrl;

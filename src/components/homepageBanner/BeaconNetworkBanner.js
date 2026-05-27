@@ -12,7 +12,8 @@ export default function BeaconNetworkBanner() {
     const fetchLogos = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${CONFIG.apiUrl}/`);
+        const baseUrl = CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl;
+        const res = await fetch(`${baseUrl}/`);
         const data = await res.json();
 
         const entries = data.responses || [];

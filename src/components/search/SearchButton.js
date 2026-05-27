@@ -48,7 +48,8 @@ export default function SearchButton({ setSelectedTool }) {
     setHasSearchBeenTriggered(true);
 
     try {
-      const url = `${CONFIG.apiUrl}/${selectedPathSegment}`;
+      const baseUrl = CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl;
+      const url = `${baseUrl}/${selectedPathSegment}`;
       let response;
 
       const query = queryBuilder(selectedFilter, omopFilters, entryTypeId);

@@ -145,7 +145,7 @@ export default function Search({
 
   const handleBeaconsInfo = async () => {
     try {
-      let url = `${CONFIG.apiUrl}/info`;
+      let url = `${CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl}/info`;
       let response = await fetch(url);
       const data = await response.json();
       let normalizedData = [];
