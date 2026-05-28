@@ -46,13 +46,13 @@ export default function QueryAppliedItems({
       const op = f.value?.op;
       const val = f.value?.value;
       if (op != null && val != null) {
-        return `${onto || "TERM"}:${code || ""} • ${op} ${val}`;
+        return `${onto || "TERM"}:${code || ""} ${op} ${val}`;
       }
       return `${onto || "TERM"}:${code || ""}`;
     }
     if (t === "text" || t === "select") {
       const displayValue = f.valueLabel ?? f.value;
-      return `${onto || "TERM"}:${code || ""}${displayValue != null ? ` • = ${displayValue}` : ""}`;
+      return `${onto || "TERM"}:${code || ""}${displayValue != null ? ` = ${displayValue}` : ""}`;
     }
     // checkbox
     return `${onto || "TERM"}:${code || ""}`;
