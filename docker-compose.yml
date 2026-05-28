@@ -2,6 +2,8 @@ services:
   web:
     build: .
     image: beacon-ui:latest
+    container_name: beacon-ui
+    hostname: beacon-ui
     ports:
       - "8080:80"
     environment:
@@ -15,7 +17,7 @@ services:
       REACT_APP_BEACON_UI_OIDC_CLIENT_ID: ${BEACON_UI_OIDC_CLIENT_ID:-d3132b30-3a07-4a66-a065-512674fac86e}
       REACT_APP_BEACON_UI_OIDC_REDIRECT_URI: ${BEACON_UI_OIDC_REDIRECT_URI:-https://beacons.bsc.es/}
       REACT_APP_BEACON_UI_OIDC_LOGOUT_REDIRECT_URI: ${BEACON_UI_OIDC_LOGOUT_REDIRECT_URI:-https://beacons.bsc.es/}
-      REACT_APP_BEACON_UI_API_BASE_URL: http://localhost:5050
+      REACT_APP_BEACON_UI_API_BASE_URL: beacon2-ri-api-main-beacon-omopcdm-alchemy-1:5050
       REACT_APP_BEACON_UI_PUBLIC_URL: ${BEACON_UI_PUBLIC_URL:-https://beacons.bsc.es/}
     networks:
       - default
