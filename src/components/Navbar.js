@@ -63,19 +63,20 @@ export default function Navbar({ title, main, navItems }) {
     },
   };
 
+  const REDIRECT_URI = globalThis.OIDCCfg?.redirectUri || window.location.origin;
+
   const handleLogout = async() => {
     try {
       await auth.signoutRedirect({
-        post_logout_redirect_uri: window.location.origin
+        post_logout_redirect_uri: REDIRECT_URI
       });
     } catch (e) {
       await auth.removeUser();
-      window.location.assign(window.location.origin);
+      window.location.assign(REDIRECT_URI);
     }
   }
 
   const startLogin = () => {
-    const REDIRECT_URI = window.location.origin; 
     auth.signinRedirect({ redirect_uri: REDIRECT_URI });
   };
 
@@ -103,28 +104,12 @@ export default function Navbar({ title, main, navItems }) {
       setOpen(true);
       cleanUrl();
     }
-    if (searchParams.has('code')) {
-      handleSuccessfulLogin();
-    }
   }, []);
 
   const cleanUrl = () => {
     const url = new URL(window.location);
     url.search = '';
     window.history.replaceState({}, '', url);
-  };
-
-  const handleSuccessfulLogin = async () => {
-    try {
-      await auth.signinRedirectCallback();
-      cleanUrl();
-      navigate('/')
-    } catch (error) {
-      setError(error);
-      setErrorDescription(error.message);
-      setOpen(true);
-      cleanUrl();
-    }
   };
 
   return (

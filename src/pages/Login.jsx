@@ -27,11 +27,7 @@ export default function Login() {
   const LOGOS = UI.logos ?? {};
   const loginRequired = Boolean(CFG.loginRequired);
 
-  const isProd = window.location.hostname === new URL(CONFIG.appUrl).hostname;
-
-  const REDIRECT_URI = isProd
-    ? `${CONFIG.appUrl}`
-    : "http://localhost:3000";
+  const REDIRECT_URI = globalThis.OIDCCfg?.redirectUri || window.location.origin;
 
   const from = location.state?.from?.pathname || "/";
   const hasCallback = sp.has("code") || sp.has("error");

@@ -16,11 +16,13 @@ import { AuthProvider } from "react-oidc-context";
     window.OIDCCfg  = OIDCCfg;
     globalThis.OIDCCfg = OIDCCfg;
 
+    const appOrigin = OIDCCfg.redirectUri || window.location.origin;
     const oidcConfig = {
       authority: `${OIDCCfg.oidcUrl}`,
       client_id: `${OIDCCfg.oidcClientId}`,
-      redirect_uri: `https://beacons.bsc.es/`,
-      post_logout_redirect_uri: `https://beacons.bsc.es/`,
+      client_secret: `${OIDCCfg.oidcClientSecret}`,
+      redirect_uri: appOrigin,
+      post_logout_redirect_uri: appOrigin,
       response_type: "code",
       scope: "openid profile email",
       automaticSilentRenew: false,
