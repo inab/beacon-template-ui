@@ -46,7 +46,7 @@ export function searchFilteringTerms(terms, searchInput) {
   if (!terms || terms.length === 0 || !searchInput) return [];
 
   const fuse = new Fuse(terms, {
-    keys: ["label", "id"],
+    keys: ["label", "id", "omop_id"],
     threshold: 0.3,
   });
 
