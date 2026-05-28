@@ -10,6 +10,7 @@ export const COMMON_MESSAGES = {
   loadingData: "Loading data...",
   fillFields: "Please fill in all the fields",
   addFilter: "Please apply at least one filter to run this search.",
+  unauthorized: "Authentication required. Please log in to access this data.",
   invalidInteger: "Please enter a whole number (e.g. 60)",
   invalidDecimal: "Please enter a valid number (e.g. 170 or 70.5)",
 };

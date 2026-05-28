@@ -75,6 +75,9 @@ export default function SearchButton({ setSelectedTool }) {
         setResultData([]);
         setHasSearchResult(true);
         setLoadingData(false);
+        if (response.status === 401 || response.status === 403) {
+          setMessage(COMMON_MESSAGES.unauthorized);
+        }
         return;
       }
 
