@@ -24,7 +24,7 @@ import { AuthProvider } from "react-oidc-context";
       redirect_uri: appOrigin,
       post_logout_redirect_uri: appOrigin,
       response_type: "code",
-      scope: "openid profile email",
+      scope: "openid profile email ga4gh_passport_v1",
       automaticSilentRenew: false,
       onSigninCallback: () => {
         const to = sessionStorage.getItem("returnTo") || "/";
