@@ -23,13 +23,13 @@ export default function BeaconNetworkBanner() {
         const cleaned = entries
           .map((entry) => {
             const logoUrl = entry?.response?.organization?.logoUrl;
-            const beaconId = entry?.response?.id;
-            return logoUrl ? { logoUrl, beaconId } : null;
+            const beaconId = entry?.response?.id || entry?.meta?.beaconId;
+            return beaconId ? { logoUrl, beaconId } : null;
           })
           .filter(Boolean)
           .filter((entry) => {
-            if (seen.has(entry.logoUrl)) return false;
-            seen.add(entry.logoUrl);
+            if (seen.has(entry.beaconId)) return false;
+            seen.add(entry.beaconId);
             return true;
           });
 

@@ -74,12 +74,23 @@ export default function ResultsTable() {
     setModalOpen(false);
   };
 
+  const ERROR_LABELS = {
+    0:   "Could not connect to the beacon. It may be down or unreachable.",
+    400: "Bad request — the query could not be processed by the beacon.",
+    401: "Authentication required — please log in to access this data.",
+    403: "Access denied — you don't have permission to query this beacon.",
+    404: "Endpoint not found in this beacon.",
+    500: "The beacon encountered an internal error.",
+    503: "Beacon temporarily unavailable. Try again later.",
+  };
+
   const getErrors = (data) => {
-    if(data.error) {
-      return `error code: ${data.error.errorCode}; error message: ${data.error.errorMessage}`;
-    } else {
-      return null;
-    }
+    if (!data?.error) return null;
+    const code = data.error.errorCode;
+    const raw  = data.error.errorMessage;
+    const label = ERROR_LABELS[code] ?? `Unexpected error from the beacon.`;
+    const detail = raw && raw !== `HTTP ${code}` ? ` (${code}: ${raw})` : ` (${code})`;
+    return label + detail;
   };
 
   const findBeaconIcon = (beaconId) => {
@@ -154,6 +165,8 @@ export default function ResultsTable() {
               {resultData.map((item, index) => {
                 const iconUrl = findBeaconIcon(item.beaconId);
                 const itemEmail = findBeaconEmail(item.beaconId);
+                const errorMsg = item.info ? getErrors(item.info) : null;
+                const hasError = Boolean(errorMsg);
 
                 return (
                   <React.Fragment key={index}>
@@ -162,8 +175,9 @@ export default function ResultsTable() {
                       onClick={() => handleRowClick(item)}
                       sx={{
                         cursor: "pointer",
+                        backgroundColor: hasError ? "#fff5f5" : "inherit",
                         "&:hover": {
-                          backgroundColor: selectedBgColor,
+                          backgroundColor: hasError ? "#ffe5e5" : selectedBgColor,
                         },
                         "&.MuiTableRow-root": {
                           transition: "background-color 0.2s ease",
@@ -176,10 +190,10 @@ export default function ResultsTable() {
                       }}>
                       <TableCell sx={{ fontWeight: "bold"  }} style={{ width: BEACON_NETWORK_COLUMNS[0].width }}>
                         <Box display="flex"  justifyContent="flex-start" alignItems="center" gap={1}>
-                          { item.info &&
-                            <Tooltip title={ getErrors(item.info) }>
+                          { errorMsg &&
+                            <Tooltip title={errorMsg}>
                               <IconButton>
-                                <ReportProblemIcon sx={{ color: "#FF8A8A" }} />
+                                <ReportProblemIcon sx={{ color: "#d32f2f" }} />
                               </IconButton>
                             </Tooltip>
                           }
@@ -209,7 +223,12 @@ export default function ResultsTable() {
                       <TableCell sx={{ fontWeight: "bold"  }} style={{ width: BEACON_NETWORK_COLUMNS[1].width }}>{item.exists ? "Production Beacon" : "Development"}</TableCell>
                       <TableCell sx={{ fontWeight: "bold"  }} style={{ width: BEACON_NETWORK_COLUMNS[2].width }}>{item.items.length>0 ?  item.items.length + " Datasets" : "-"}</TableCell>
                       <TableCell sx={{ fontWeight: "bold", width: BEACON_NETWORK_COLUMNS[3].width }}>
-                        { item.totalResultsCount > 0 ? new Intl.NumberFormat(navigator.language, { useGrouping: true }).format(Number(item.totalResultsCount)) : 0 }
+                        { hasError
+                          ? <span style={{ color: "#d32f2f" }}>Error</span>
+                          : item.totalResultsCount > 0
+                            ? new Intl.NumberFormat(navigator.language, { useGrouping: true }).format(Number(item.totalResultsCount))
+                            : 0
+                        }
                       </TableCell>
                       { CONFIG.beaconType === 'singleBeacon' &&
                       <TableCell 

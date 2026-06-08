@@ -19,7 +19,8 @@ export default function SearchButton({ setSelectedTool }) {
     isLoaded,
     setIsLoaded,
     omopFilters,
-    setSearchJSON
+    setSearchJSON,
+    beaconsInfo,
   } = useSelectedEntry();
 
   const auth = useAuth();
@@ -72,17 +73,31 @@ export default function SearchButton({ setSelectedTool }) {
 
       if (!response.ok) {
         console.error("Fetch failed:", response.status);
-        setResultData([]);
+        let errorCode = response.status;
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errBody = await response.json();
+          if (errBody?.error) {
+            errorCode = errBody.error.errorCode ?? errorCode;
+            errorMessage = errBody.error.errorMessage ?? errorMessage;
+          }
+        } catch (_) {}
+        setResultData([buildErrorRow(errorCode, errorMessage)]);
         setHasSearchResult(true);
         setLoadingData(false);
-        if (response.status === 401 || response.status === 403) {
-          setMessage(COMMON_MESSAGES.unauthorized);
-        }
         return;
       }
 
       const data = await response.json();
-      
+
+      // resultSets/collections absent (not just empty []) means the aggregator
+      // failed internally before forwarding to beacons — despite returning HTTP 200
+      if (data?.response?.resultSets === undefined && data?.response?.collections === undefined) {
+        setResultData([buildErrorRow(500, "The aggregator could not process the request.")]);
+        setHasSearchResult(true);
+        return;
+      }
+
       // group beacons
       const rawItems = data?.response?.resultSets ?? data?.response?.collections ?? [];
 
@@ -121,13 +136,28 @@ export default function SearchButton({ setSelectedTool }) {
       setResultData(groupedArray);
       setHasSearchResult(true);
     } catch (error) {
-      setResultData([]);
+      setResultData([buildErrorRow(0, error.message || "Network error")]);
       setHasSearchResult(true);
     } finally {
       setHasSearchResult(true);
       setLoadingData(false);
       setIsLoaded(true);
     }
+  };
+
+  const buildErrorRow = (errorCode, errorMessage) => {
+    const isNetwork = CONFIG.beaconType === "networkBeacon";
+    const id = isNetwork
+      ? "Beacon Network"
+      : beaconsInfo[0]?.id || beaconsInfo[0]?.name || "Beacon";
+    return {
+      id,
+      exists: false,
+      info: { error: { errorCode, errorMessage } },
+      totalResultsCount: 0,
+      items: [],
+      description: "",
+    };
   };
 
   const queryBuilder = (classicParams, omopParams, entryId) => {
