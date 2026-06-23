@@ -20,6 +20,7 @@ import {
   assignDefaultScopesToTerms,
   handleFilterSelection,
   getDisplayLabelAndScope,
+  ensureColonSeparator,
 } from "../common/filteringTermsHelpers";
 import { getSelectableScopeStyles } from "../styling/selectableScopeStyles";
 
@@ -138,7 +139,7 @@ export default function FilteringTermsTable({
                       null;
 
                     const item = {
-                      key: term.id,
+                      key: ensureColonSeparator(term.id),
                       label: displayLabel?.trim()
                         ? displayLabel
                         : term.label || term.id,
