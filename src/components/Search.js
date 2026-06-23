@@ -93,7 +93,7 @@ export default function Search({
   useEffect(() => {
     const fetchEntryTypes = async () => {
       try {
-        const res = await fetch(`${CONFIG.apiUrl}/map`);
+        const res = await fetch(`${CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl}/map`);
         const data = await res.json();
         const endpointSets = data.response.endpointSets || {};
 
@@ -126,7 +126,7 @@ export default function Search({
 
   const fetchConfiguration = async () => {
     try {
-      const res = await fetch(`${CONFIG.apiUrl}/configuration`);
+      const res = await fetch(`${CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl}/configuration`);
       const data = await res.json();
       setEntryTypesConfig(data.response.entryTypes || {});
     } catch (err) {
