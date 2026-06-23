@@ -275,7 +275,7 @@ export default function ResultsTable() {
                                   fontWeight: 400,
                                   fontFamily: '"Open Sans", sans-serif',
                                   backgroundColor: "transparent",
-                                  color: "gray",
+                                  color: CONFIG.ui.colors.darkPrimary,
                                   minWidth: 0,
                                   height: "30px",
                                   padding: "0 6px",

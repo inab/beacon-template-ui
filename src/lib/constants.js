@@ -64,15 +64,6 @@ export const BEACON_SINGLE_COLUMNS = [
   }
 ];
 
-export const BEACON_NETWORK_COLUMNS_EXPANDED = {
-  'beacon_dataset_name': '60%',
-  'beacon_dataset_response': '20%',
-  'beacon_dataset_detail': {
-    width: '10%',
-    float: 'right'
-  }
-}
-
 export const FILTERING_TERMS_COLUMNS = [
   {
     id: "id",
