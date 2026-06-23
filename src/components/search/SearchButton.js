@@ -165,7 +165,7 @@ export default function SearchButton({ setSelectedTool }) {
       meta: { apiVersion: "2.0" },
       query: {
         filters: [],
-        includeResultsetResponses: "HIT",
+        includeResultsetResponses: "ALL",
         pagination: { skip: 0, limit: 10 },
         testMode: false,
         requestedGranularity: "record",
