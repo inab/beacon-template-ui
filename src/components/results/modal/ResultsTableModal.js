@@ -93,7 +93,8 @@ const ResultsTableModal = ({ open, subRow, onClose }) => {
   async function buildDownloadRows(sortedHeaders, cleanAndParseInfo) {
     try {
       setLoadingDownload(true);
-      const url = `${CONFIG.apiUrl}/${selectedPathSegment}`;
+      const baseUrl = CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl;
+      const url = `${baseUrl}/${selectedPathSegment}`;
 
       let query = queryBuilder(0, omopFilters, entryTypeId);
 
@@ -309,7 +310,8 @@ const ResultsTableModal = ({ open, subRow, onClose }) => {
     const fetchTableItems = async () => {
       try {
         setLoading(true);
-        const url = `${CONFIG.apiUrl}/${selectedPathSegment}`;
+        const baseUrl = CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl;
+      const url = `${baseUrl}/${selectedPathSegment}`;
         setUrl(url);
         let query = queryBuilder(page, selectedFilter, omopFilters, entryTypeId);
 

@@ -20,7 +20,6 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import InfoIcon from '@mui/icons-material/Info';
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
@@ -46,8 +45,10 @@ export default function ResultsTable() {
     },
   };
 
+  const rowKey = (item) => item?.beaconId ?? item?.id;
+
   const handleRowClick = (item) => {
-    if (expandedRow && expandedRow.beaconId === item.beaconId) {
+    if (expandedRow && rowKey(expandedRow) === rowKey(item)) {
       setExpandedRow(null);
     } else {
       setExpandedRow(item);
@@ -74,23 +75,47 @@ export default function ResultsTable() {
     setModalOpen(false);
   };
 
-  const ERROR_LABELS = {
-    0:   "Could not connect to the beacon. It may be down or unreachable.",
-    400: "Bad request — the query could not be processed by the beacon.",
-    401: "Authentication required — please log in to access this data.",
-    403: "Access denied — you don't have permission to query this beacon.",
-    404: "Endpoint not found in this beacon.",
-    500: "The beacon encountered an internal error.",
-    503: "Beacon temporarily unavailable. Try again later.",
+  // 401/403 are expected, resolvable states (login/permissions) — treated as
+  // warnings (amber). Everything else is a real beacon/network failure (red).
+  const RESPONSE_STATUS = {
+    0:   { severity: "error",   short: "Connection failed", long: "Could not connect to the beacon. It may be down or unreachable." },
+    400: { severity: "error",   short: "Bad request",       long: "Bad request — the query could not be processed by the beacon." },
+    401: { severity: "warning", short: "Login required",    long: "Authentication required — please log in to access this data." },
+    403: { severity: "warning", short: "Access denied",     long: "Access denied — you don't have permission to query this beacon." },
+    404: { severity: "error",   short: "Not supported",     long: "Endpoint not found in this beacon." },
+    500: { severity: "error",   short: "Beacon error",      long: "The beacon encountered an internal error." },
+    503: { severity: "error",   short: "Unavailable",       long: "Beacon temporarily unavailable. Try again later." },
   };
 
-  const getErrors = (data) => {
+  const SEVERITY_COLORS = {
+    error:   { text: "#d32f2f", bg: "#fff5f5", bgHover: "#ffe5e5" },
+    warning: { text: "#b45309", bg: "#fff8e1", bgHover: "#ffecb3" },
+  };
+
+  const getResponseStatus = (data) => {
     if (!data?.error) return null;
     const code = data.error.errorCode;
-    const raw  = data.error.errorMessage;
-    const label = ERROR_LABELS[code] ?? `Unexpected error from the beacon.`;
-    const detail = raw && raw !== `HTTP ${code}` ? ` (${code}: ${raw})` : ` (${code})`;
-    return label + detail;
+    const status = RESPONSE_STATUS[code] ?? { severity: "error", short: "Unexpected error", long: "Unexpected error from the beacon." };
+    // the raw errorMessage from beacons/aggregators often leaks internal
+    // hostnames/implementation details — not shown to the end user.
+    return { ...status, long: `${status.long} (${code})` };
+  };
+
+  const findBeaconEnvironment = (beaconId) => {
+    let beacon = {};
+    if (CONFIG.beaconType === "singleBeacon") {
+      beacon = beaconsInfo[0];
+    } else {
+      beacon = beaconsInfo.find((item) => {
+        const id = item.meta?.beaconId || item.id;
+        return id === beaconId;
+      });
+    }
+    if (!beacon) return null;
+    const environment = beacon.response
+      ? beacon.response?.environment
+      : beacon.environment;
+    return environment ?? null;
   };
 
   const findBeaconIcon = (beaconId) => {
@@ -165,8 +190,10 @@ export default function ResultsTable() {
               {resultData.map((item, index) => {
                 const iconUrl = findBeaconIcon(item.beaconId);
                 const itemEmail = findBeaconEmail(item.beaconId);
-                const errorMsg = item.info ? getErrors(item.info) : null;
-                const hasError = Boolean(errorMsg);
+                const environment = findBeaconEnvironment(item.beaconId);
+                const status = item.info ? getResponseStatus(item.info) : null;
+                const hasError = Boolean(status);
+                const colors = status ? SEVERITY_COLORS[status.severity] : null;
 
                 return (
                   <React.Fragment key={index}>
@@ -175,9 +202,9 @@ export default function ResultsTable() {
                       onClick={() => handleRowClick(item)}
                       sx={{
                         cursor: "pointer",
-                        backgroundColor: hasError ? "#fff5f5" : "inherit",
+                        backgroundColor: hasError ? colors.bg : "inherit",
                         "&:hover": {
-                          backgroundColor: hasError ? "#ffe5e5" : selectedBgColor,
+                          backgroundColor: hasError ? colors.bgHover : selectedBgColor,
                         },
                         "&.MuiTableRow-root": {
                           transition: "background-color 0.2s ease",
@@ -190,13 +217,6 @@ export default function ResultsTable() {
                       }}>
                       <TableCell sx={{ fontWeight: "bold"  }} style={{ width: BEACON_NETWORK_COLUMNS[0].width }}>
                         <Box display="flex"  justifyContent="flex-start" alignItems="center" gap={1}>
-                          { errorMsg &&
-                            <Tooltip title={errorMsg}>
-                              <IconButton>
-                                <ReportProblemIcon sx={{ color: "#d32f2f" }} />
-                              </IconButton>
-                            </Tooltip>
-                          }
                           { item.description &&
                             <Tooltip title={ item.description	 ? item.description	: item.name }>
                               <IconButton>
@@ -204,8 +224,8 @@ export default function ResultsTable() {
                               </IconButton>
                             </Tooltip>
                           }
-                          { item.items.length>0 && item.beaconId && (
-                              expandedRow && expandedRow.beaconId === item.beaconId ? (
+                          { (item.items.length>0 || status) && rowKey(item) && (
+                              expandedRow && rowKey(expandedRow) === rowKey(item) ? (
                               <KeyboardArrowDownIcon />
                             ) : (
                               <KeyboardArrowUpIcon />
@@ -220,11 +240,13 @@ export default function ResultsTable() {
                           <span>{ item.beaconId ? item.beaconId : item.id }</span>
                         </Box>
                       </TableCell>
-                      <TableCell sx={{ fontWeight: "bold"  }} style={{ width: BEACON_NETWORK_COLUMNS[1].width }}>{item.exists ? "Production Beacon" : "Development"}</TableCell>
+                      <TableCell sx={{ fontWeight: "bold"  }} style={{ width: BEACON_NETWORK_COLUMNS[1].width }}>
+                        {environment ? environment.charAt(0).toUpperCase() + environment.slice(1) : "—"}
+                      </TableCell>
                       <TableCell sx={{ fontWeight: "bold"  }} style={{ width: BEACON_NETWORK_COLUMNS[2].width }}>{item.items.length>0 ?  item.items.length + " Datasets" : "-"}</TableCell>
                       <TableCell sx={{ fontWeight: "bold", width: BEACON_NETWORK_COLUMNS[3].width }}>
                         { hasError
-                          ? <span style={{ color: "#d32f2f" }}>Error</span>
+                          ? <span style={{ color: colors.text }}>{status.short}</span>
                           : item.totalResultsCount > 0
                             ? new Intl.NumberFormat(navigator.language, { useGrouping: true }).format(Number(item.totalResultsCount))
                             : 0
@@ -309,10 +331,12 @@ export default function ResultsTable() {
                     </TableRow>
 
                     {expandedRow &&
-                      expandedRow.beaconId &&
-                      expandedRow.beaconId === item.beaconId && (
+                      rowKey(expandedRow) &&
+                      rowKey(expandedRow) === rowKey(item) && (
                         <ResultsTableRow
                           item={expandedRow}
+                          status={status}
+                          colors={colors}
                           handleRowClicked={handleRowClicked}
                           handleOpenModal={() => handleOpenModal(expandedRow)}
                         />

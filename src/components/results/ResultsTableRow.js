@@ -13,8 +13,28 @@ import {
 } from "@mui/material";
 import { BEACON_NETWORK_COLUMNS_EXPANDED } from '../../lib/constants';
 import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
-export default function ResultsTableRow({ item, handleOpenModal }) {
+export default function ResultsTableRow({ item, status, colors, handleOpenModal }) {
+  if (item.items.length === 0 && status) {
+    return (
+      <TableRow>
+        <TableCell colSpan={6} sx={{
+          backgroundColor: colors?.bg ?? 'background.paper',
+          borderTop: '1px solid',
+          borderColor: 'divider',
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <ReportProblemIcon sx={{ color: colors?.text }} />
+            <Typography variant="body2" sx={{ color: colors?.text, fontWeight: 'bold' }}>
+              {status.long}
+            </Typography>
+          </Box>
+        </TableCell>
+      </TableRow>
+    );
+  }
+
   return (
     <TableRow>
       <TableCell colSpan={6} sx={{
@@ -95,5 +115,15 @@ ResultsTableRow.propTypes = {
       })
     ).isRequired
   }).isRequired,
+  status: PropTypes.shape({
+    severity: PropTypes.string,
+    short: PropTypes.string,
+    long: PropTypes.string
+  }),
+  colors: PropTypes.shape({
+    text: PropTypes.string,
+    bg: PropTypes.string,
+    bgHover: PropTypes.string
+  }),
   handleOpenModal: PropTypes.func.isRequired
 };
