@@ -9,7 +9,8 @@ export default function useFilteringTerms() {
     const fetchTerms = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${CONFIG.apiUrl}/filtering_terms`);
+        const baseUrl = CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl;
+        const response = await fetch(`${baseUrl}/filtering_terms`);
         const data = await response.json();
         setFilteringTerms(data.response?.filteringTerms || []);
         setError(null);

@@ -36,7 +36,8 @@ export default function AllFilteringTermsComponent() {
   useEffect(() => {
     const fetchFilteringTerms = async () => {
       try {
-        const res = await fetch(`${CONFIG.apiUrl}/filtering_terms`);
+        const baseUrl = CONFIG.beaconType === "networkBeacon" ? CONFIG.apiUrlNetwork : CONFIG.apiUrl;
+        const res = await fetch(`${baseUrl}/filtering_terms`);
         const data = await res.json();
         setFilteringTerms(data);
       } catch (err) {
