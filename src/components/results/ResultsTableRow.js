@@ -19,7 +19,7 @@ export default function ResultsTableRow({ item, status, colors, handleOpenModal 
   if (item.items.length === 0 && status) {
     return (
       <TableRow>
-        <TableCell colSpan={6} sx={{
+        <TableCell colSpan={5} sx={{
           backgroundColor: colors?.bg ?? 'background.paper',
           borderTop: '1px solid',
           borderColor: 'divider',
@@ -37,7 +37,7 @@ export default function ResultsTableRow({ item, status, colors, handleOpenModal 
 
   return (
     <TableRow>
-      <TableCell colSpan={6} sx={{
+      <TableCell colSpan={5} sx={{
         backgroundColor: 'background.paper',
         borderTop: '1px solid',
         borderColor: 'divider',
