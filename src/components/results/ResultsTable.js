@@ -20,7 +20,6 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import InfoIcon from '@mui/icons-material/Info';
-import CalendarViewMonthIcon from '@mui/icons-material/CalendarViewMonth';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 import { useSelectedEntry } from "../context/SelectedEntryContext";
@@ -154,7 +153,8 @@ export default function ResultsTable() {
   };
 
   const handleEmail = (email) => {
-    window.location.href = `mailto:${email}`;
+    const address = email.replace(/^mailto:/i, "");
+    window.location.href = `mailto:${address}`;
   };
 
   return (
@@ -252,41 +252,6 @@ export default function ResultsTable() {
                             : 0
                         }
                       </TableCell>
-                      { CONFIG.beaconType === 'singleBeacon' &&
-                      <TableCell 
-                          style={{ width: BEACON_NETWORK_COLUMNS[3].width }}
-                        >
-                          {item.totalResultsCount > 0 ? (
-                            <Button
-                              variant="text"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleOpenModal(item);
-                              }}
-                              sx={{
-                                textTransform: "none",
-                                fontSize: "14px",
-                                fontWeight: 400,
-                                fontFamily: '"Open Sans", sans-serif',
-                                color: "gray",
-                                width: "50px",
-                                height: "30px",
-                                minWidth: "30px",
-                                minHeight: "30px",
-                                backgroundColor: "transparent",
-                                padding: 0,
-                                "&:hover": {
-                                  color: CONFIG.ui.colors.primary,
-                                },
-                              }}
-                            >
-                              <CalendarViewMonthIcon />
-                            </Button>
-                          ) : (
-                            ""
-                          )}
-                      </TableCell>
-                      }
                       <TableCell
                         style={{ 
                           width: BEACON_NETWORK_COLUMNS[4].width,
@@ -297,9 +262,9 @@ export default function ResultsTable() {
                         }
                         >
                           { itemEmail && (
-                            <Tooltip title="Contact this beacon" arrow>
-                              <Button 
+                              <Button
                                 variant="text"
+                                startIcon={<MailOutlineIcon />}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleEmail(itemEmail);
@@ -311,21 +276,20 @@ export default function ResultsTable() {
                                   fontFamily: '"Open Sans", sans-serif',
                                   backgroundColor: "transparent",
                                   color: "gray",
-                                  width: "50px",
+                                  minWidth: 0,
                                   height: "30px",
-                                  minWidth: "30px",
-                                  minHeight: "30px",
-                                  padding: 0,
+                                  padding: "0 6px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
                                   transition: 'all 0.3s ease',
                                   "&:hover": {
                                     color: CONFIG.ui.colors.primary,
-                                    transform: 'scale(1.1)'
                                   },
                                 }}
                                 >
-                                  <MailOutlineIcon />
+                                  {itemEmail.replace(/^mailto:/i, "")}
                               </Button>
-                            </Tooltip>
                           )}
                         </TableCell>
                     </TableRow>

@@ -9,30 +9,30 @@ export const BEACON_NETWORK_COLUMNS = [
     id: "maturity",
     label: "Maturity",
     align: "left",
-    width: "20%",
+    width: "10%",
   },
   {
     id: "datasets_count",
     label: "Identified Datasets",
     align: "left",
     numeric: true,
-    width: "20%",
+    width: "15%",
   },
   {
     id: "response",
     label: "Response",
-    width: "10%",
+    width: "15%",
   },
   {
     id: 'contact',
     label: "Contact",
-    width: '10%',
+    width: '30%',
     align: 'left'
   }
 ];
 
 export const BEACON_SINGLE_COLUMNS = [
-  { 
+  {
     id: 'beacon_dataset',
     label: "Dataset",
     align: 'left',
@@ -42,29 +42,24 @@ export const BEACON_SINGLE_COLUMNS = [
     id: 'maturity',
     label: "Maturity",
     align: 'left',
-    width: '20%'
+    width: '10%'
   },
   {
     id: 'datasets_count',
     label: "Identified Datasets",
     align: 'left',
     numeric: true,
-    width: '20%'
+    width: '15%'
   },
   {
     id: 'response',
     label: "Response",
-    width: '10%'
-  },
-  {
-    id: 'details',
-    label: "Details",
-    width: '10%'
+    width: '15%'
   },
   {
     id: "contact",
     label: "Contact",
-    width: "10%",
+    width: "30%",
     align: 'left'
   }
 ];
