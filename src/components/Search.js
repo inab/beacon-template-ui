@@ -230,10 +230,6 @@ export default function Search({
   };
 
   const renderInput = (type) => {
-    if (type !== "genomic" && CONFIG.beaconType === "networkBeacon") {
-      return null;
-    }
-
     if (type === "genomic") {
       return (
         <Box
